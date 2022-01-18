@@ -4,7 +4,7 @@ import platform
 
 os.system("ansible-galaxy collection install community.kubernetes")
 
-os.system("ansible-playbook stop-apm.yaml")
+os.system("ansible-playbook stop-stack.yaml")
 
 os.system("ansible-playbook setup-apm.yaml")
 

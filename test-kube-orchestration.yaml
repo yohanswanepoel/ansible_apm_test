@@ -38,16 +38,13 @@
         - name: Set development namespace context
           command: kubectl config set-context --current --namespace=development
         - name: Get petclinic url
-          command: "minikube --profile apmtest service petclinic --url"
+          command: " minikube --profile=apmtest service petclinic -n development"
           register: petclinic_url
         - name: Display number of Services in the myapp namespace.
           debug:
-            var: petclinic_url
+            var: "{{ petclinic_url.stdout }}"
 
       rescue:
         - name: delete Minikube
           command: "minikube delete --profile={{ kube_profile }}"
-      always:
-        - name: This will execute always
-          debug:
-            msg: "I will execute even in failure scenario"
+      
