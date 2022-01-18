@@ -35,6 +35,8 @@
             state: present      # State=present when you need to create new object
             namespace: development # defining the namespace
             src: java_app/petclinic_service.yaml 
+        - name: Set development namespace context
+          command: kubectl config set-context --current --namespace=development
         - name: Get petclinic url
           command: "minikube --profile apmtest service petclinic --url"
           register: petclinic_url
