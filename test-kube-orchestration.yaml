@@ -1,0 +1,51 @@
+- name: Test Playbook
+  hosts: localhost
+  vars:
+    kube_cpu: 4
+    kube_memory: 12g
+    kube_disk: 50G
+    kube_profile: apmtest
+    kube_modules:
+      - metrics-server
+      - dashboard
+      - registry
+      - ingress
+      - ingress-dns
+  tasks:
+    - block:
+        - name: Start Minikube
+          command: "minikube start --profile={{ kube_profile }} --disk-size={{ kube_disk }} --cpus={{ kube_cpu }} --memory={{ kube_memory }} --container-runtime=cri-o"
+        - name: Enable Addons
+          command: "minikube --profile={{ kube_profile }} addons enable {{ item }}"
+          with_items:
+            - "{{ kube_modules }}"
+        - name: Create a k8s namespace
+          kubernetes.core.k8s:
+            api_version: v1
+            kind: Namespace
+            name: development
+            state: present
+        - name: Create a Deployment
+          k8s:
+            state: present      # State=present when you need to create new object
+            namespace: development # defining the namespace
+            src: java_app/petclinic_with_apm.yaml
+        - name: Create a Service
+          k8s:
+            state: present      # State=present when you need to create new object
+            namespace: development # defining the namespace
+            src: java_app/petclinic_service.yaml 
+        - name: Get petclinic url
+          command: "minikube --profile apmtest service petclinic --url"
+          register: petclinic_url
+        - name: Display number of Services in the myapp namespace.
+          debug:
+            var: petclinic_url
+
+      rescue:
+        - name: delete Minikube
+          command: "minikube delete --profile={{ kube_profile }}"
+      always:
+        - name: This will execute always
+          debug:
+            msg: "I will execute even in failure scenario"

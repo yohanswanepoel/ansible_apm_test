@@ -1,0 +1,24 @@
+- name: Setup Kubernetes
+  hosts: localhost
+  tasks:
+    - block:
+        - name: List home directory content
+          command: "ls -l ~/"
+        - name: List home directory again
+          command: "ls -l ~/"
+        - name: Check Network to Google
+          uri:
+            url: "http://www.google.com"
+            method: "GET"
+        - name: Check Network to Google
+          uri:
+            url: "http://google.com"
+            method: "GET"
+      rescue:
+        - name: Rescue block (perform recovery)
+          debug:
+            msg: "Something went wrong, cleaning up.."
+      always:
+        - name: This will execute always
+          debug:
+            msg: "I will execute even in failure scenario"

@@ -1,0 +1,17 @@
+---
+- name: Start Elastic
+  hosts: localhost
+  tasks:
+    - name: Stop Kibana
+      shell: "pkill kibana; echo 0"
+
+    - name: Stop APM
+      shell: "pkill apm-server; echo 0"
+
+    - name: Stop Elastic Search
+      shell: "kill $(ps -ef | grep -i elastic | grep -i java | awk '{print $2}'); echo 0"
+
+    - name: remove logs
+      shell: "rm apm.log elastic.log kibana.log"
+
+

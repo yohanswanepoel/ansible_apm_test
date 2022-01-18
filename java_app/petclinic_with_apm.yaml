@@ -1,0 +1,52 @@
+apiVersion: apps/v1 
+kind: Deployment 
+metadata: 
+  name: petclinic 
+  labels: 
+    app: petclinic 
+    type: java 
+    service: petclinic 
+spec: 
+  replicas: 1 
+  selector: 
+    matchLabels: 
+      app: petclinic 
+  template: 
+    metadata: 
+      labels: 
+        app: petclinic 
+        service: petclinic 
+    spec: 
+      dnsPolicy: ClusterFirstWithHostNet 
+      ###################### Shared volume and init container ##########################
+      volumes: 
+      - name: elastic-apm-agent 
+        emptyDir: {} 
+      initContainers: 
+      - name: elastic-java-agent 
+        image: docker.elastic.co/observability/apm-agent-java:1.12.0 
+        volumeMounts: 
+        - mountPath: /elastic/apm/agent 
+          name: elastic-apm-agent 
+        command: ['cp', '-v', '/usr/agent/elastic-apm-agent.jar', '/elastic/apm/agent']
+      ##################################################################################      
+      containers: 
+      - name: petclinic 
+        image: eyalkoren/pet-clinic:without-agent
+      ######################### Volume path and agent config ###########################
+        volumeMounts: 
+        - mountPath: /elastic/apm/agent 
+          name: elastic-apm-agent 
+        env: 
+        - name: ELASTIC_APM_SERVER_URL 
+          value: "http://host.minikube.internal:8200" 
+        - name: ELASTIC_APM_SERVICE_NAME 
+          value: "petclinic" 
+        - name: ELASTIC_APM_APPLICATION_PACKAGES 
+          value: "org.springframework.samples.petclinic" 
+        - name: ELASTIC_APM_ENVIRONMENT 
+          value: development 
+        - name: ELASTIC_APM_LOG_LEVEL 
+          value: DEBUG 
+        - name: JAVA_TOOL_OPTIONS 
+          value: -javaagent:/elastic/apm/agent/elastic-apm-agent.jar

@@ -1,0 +1,13 @@
+---
+- name: Start Elastic
+  hosts: localhost
+  tasks:
+     - name: Start Elastic Search
+       shell: "elasticsearch > elastic.log &"
+
+     - name: Start Kibana
+       shell: "kibana > kibana.log &"
+
+     - name: Start APM
+       shell: "apm-server -e > apm.log 2>&1 &"
+

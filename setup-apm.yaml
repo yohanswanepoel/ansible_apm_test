@@ -1,0 +1,21 @@
+---
+- name: Setup APM for Ansible
+  hosts: localhost
+  vars:
+    packages:
+      - kubernetes
+      - opentelemetry-exporter-otlp
+  tasks:
+  - name: Install otel python package
+    pip:
+      name: "{{ item }}"
+    with_items:
+      - "{{ packages }}"
+  - name: Creating a file with content
+    copy:
+      dest: ansible.cfg
+      content: |
+        [defaults]
+        callbacks_enabled = community.general.opentelemetry
+  
+    
