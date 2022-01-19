@@ -28,6 +28,57 @@ Generate Traffic for Java App
 ```bash
 python python3 java_app/generate_traffic.py http://[cluster ip]:30001
 ```
+
+## Elastic Config
+Apply this on your apm_transaction index and index template
+```json
+
+PUT apm-7.16.3-transaction-000001/_mapping
+{
+    "runtime": {
+      "labels.manual_effort": {
+        "type":"long"
+      }
+    }
+}
+
+
+PUT _template/apm-7.16.3-transaction?include_type_name
+{
+  "order": 2,
+  "index_patterns": [
+    "apm-7.16.3-transaction*"
+  ],
+  "settings": {
+    "index": {
+      "lifecycle": {
+        "name": "apm-rollover-30-days",
+        "rollover_alias": "apm-7.16.3-transaction"
+      }
+    }
+  },
+  "aliases": {},
+  "mappings": {
+    "_doc": {
+      "_meta": {
+        "beat": "apm",
+        "version": "7.16.3"
+      },
+      "runtime": {
+        "labels.manual_effort": {
+          "type": "long"
+        }
+      },
+      "dynamic_templates": [],
+      "date_detection": false
+    }
+  }
+}
+```
+
+## Import the dasboad
+dashboard.ndjson
+
 ## TODO
 * capture metrics e.g. business unit - manual effort ect.
 * develop insightful dashbboards
