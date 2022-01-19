@@ -1,0 +1,13 @@
+- name: Test Playbook
+  hosts: localhost
+  tasks:
+    - block:
+        - name: Setup 1
+          command: "ls -l ~/"
+        - name: Setup 2
+          command: "ls -l ~/"
+        - name: Provision infrastructure Pause
+          pause:
+            minutes: 1
+        - name: finalise 1
+          command: "ls -l ~/"
