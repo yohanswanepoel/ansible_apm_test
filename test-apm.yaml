@@ -6,13 +6,17 @@
           command: "ls -l ~/"
         - name: List home directory again
           command: "ls -l ~/"
-        - name: Check Network to Google
+        - name: Check Network to GitHub
           uri:
-            url: "http://www.google.com"
+            url: "http://www.github.com"
             method: "GET"
         - name: Check Network to Google
           uri:
             url: "http://google.com"
+            method: "GET"
+        - name: Check Network to Docker
+          uri:
+            url: "http://docker.io"
             method: "GET"
       rescue:
         - name: Rescue block (perform recovery)

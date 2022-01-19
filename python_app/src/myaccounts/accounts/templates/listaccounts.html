@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% load static i18n %}
+
+{% block sidebar %}
+      <div class="pf-c-page__sidebar" id="page-sidebar">
+        <div class="pf-c-page__sidebar-body">
+          <div class="pf-c-panel">
+            <div class="pf-c-panel-body">
+              <nav class="pf-c-nav">
+                <ul class="pf-c-nav__list">
+                  <li class="pf-c-nav__item">
+                    <a class="pf-c-nav__link pf-m-current" href="#">Summary<span class="sr-only">(current)</span></a>
+                  </li>
+                  <li class="pf-c-nav__item">
+                    <a class="pf-c-nav__link" href="{% url 'myaccounts:home' %}"> Accounts</a>
+                  </li>
+                  <li class="pf-c-nav__item">
+                    <a class="pf-c-nav__link" href="#">Transfer/Pay</a>
+                  </li>
+                  <li class="pf-c-nav__item">
+                    <a class="pf-c-nav__link" href="#">Reports</a>
+                  </li>
+                  <li class="pf-c-nav__item">
+                    <a class="pf-c-nav__link" href="#">New Applications</a>
+                  </li>
+                  <li class="pf-c-nav__item">
+                    <a class="pf-c-nav__link" href="#">Notifications</a>
+                  </li>
+                </ul>
+
+
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+{% endblock sidebar %}
+
+{% block content %}
+      
+      <div id="app" >
+        
+        <main class="pf-c-page__main">
+          <h1>Dashboard</h1>
+          <section class="pf-c-page__main-section pf-m-horizontal">
+            <button v-on:click="changeValue" class="pf-c-button pf-m-primary">Changes</button>
+            <button v-on:click="resetValue" class="pf-c-button pf-m-primary">Reset</button>
+            <button v-on:click="addToList" class="pf-c-button pf-m-primary">Add Item</button>
+            <button v-on:click="removeItem" class="pf-c-button pf-m-primary">Remove Item</button>
+        </section>
+        <br>
+        <section class="pf-c-page__main-section">
+            Some More stuff
+            [[ message ]]
+            <br>
+            <input type="text" v-model="input"></input>
+            <input type="text" v-model="message"></input>
+            <ul class="list-group">
+              <li v-for="gl in groceryList" class="list-group-item list-group-item-action">
+                [[ gl.text ]]
+              </li>
+            </ul>
+            <table class="table table-striped table-hover table-bordered">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Name</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="table-info" v-for="gl in groceryList">
+                  <td>[[ gl.id ]]</td>
+                  <td>[[ gl.text ]]</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+          </main>
+      </div>
+      
+{% endblock content %}
+
+{% block custom_javascript %}
+
+    <script>
+    var app = new Vue({
+      el: '#app',
+      delimiters: ["[[","]]"],
+      data: {
+        message: 'Hello Vue!',
+        input: 'A',
+        groceryList: [
+            { id: 0, text: 'Vegetables 2' },
+            { id: 1, text: 'Cheese' },
+            { id: 2, text: 'Whatever else humans are supposed to eat' }
+          ]
+      },
+      methods: {
+        changeValue: function(){
+          this.message += app.input;
+        },
+        resetValue: function(){
+          this.message = "Hello ";
+          this.groceryList = [
+              { id: 0, text: 'Vegetables' },
+              { id: 1, text: 'Cheese' },
+              { id: 2, text: 'Whatever else humans are supposed to eat' }
+            ];
+        },
+        addToList: function(){
+          this.groceryList.push({id:this.groceryList.length+1,text:this.input})
+        },
+        removeItem: function(){
+          this.groceryList.pop()
+        }
+
+      }
+    })
+    </script>
+ {% endblock custom_javascript %}

@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load static i18n %}
+
+
+
+{% block content %}
+  <div class="pf-l-gallery pf-m-gutter">
+    <div class="pf-c-card pf-m-hoverable pf-m-compact" style="padding:20px">
+      <div class="pf-c-card__title">
+        <p id="card-1-check-label">Machine</p>
+        <div class="pf-c-content">
+          <small>CPU Type</small>
+        </div>
+      </div>
+      <div class="pf-c-card__body">
+        {{ machine }}
+      </div>
+    </div>
+    <div class="pf-c-card pf-m-hoverable pf-m-compact" style="padding:20px">
+      <div class="pf-c-card__title">
+        <p id="card-1-check-label">Node</p>
+        <div class="pf-c-content">
+          <small>OS Flavour</small>
+        </div>
+      </div>
+      <div class="pf-c-card__body">
+        {{ node }}
+      </div>
+    </div>
+    <div class="pf-c-card pf-m-hoverable pf-m-compact" style="padding:20px">
+      <div class="pf-c-card__title">
+        <p id="card-1-check-label">Operating System</p>
+        <div class="pf-c-content">
+          <small>OS</small>
+        </div>
+      </div>
+      <div class="pf-c-card__body">
+        {{ system }}
+      </div>
+    </div>
+    <div class="pf-c-card pf-m-hoverable pf-m-compact" style="padding:20px">
+      <div class="pf-c-card__title">
+        <p id="card-1-check-label">Kernel</p>
+        <div class="pf-c-content">
+          <small>Release</small>
+        </div>
+      </div>
+      <div class="pf-c-card__body">
+        {{ release }}
+      </div>
+    </div>
+    <div class="pf-c-card pf-m-hoverable pf-m-compact" style="padding:20px">
+      <div class="pf-c-card__title">
+        <p id="card-1-check-label">Platform</p>
+        <div class="pf-c-content">
+          <small>Details</small>
+        </div>
+      </div>
+      <div class="pf-c-card__body">
+        {{ platform }}
+      </div>
+    </div>
+</div>
+
+
+  
+
+{% endblock content %}
+
+{% block custom_javascript %}
+
+{% endblock custom_javascript %}

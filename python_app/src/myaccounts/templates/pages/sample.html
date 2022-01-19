@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load static i18n %}
+
+
+
+{% block content %}
+<div id="app" class="container">
+      <button v-on:click="changeValue" class="btn">Change</button>
+      <button v-on:click="resetValue" class="btn">Reset</button>
+      <button v-on:click="addToList" class="btn">Add Item</button>
+      <button v-on:click="removeItem" class="btn">Remove Item</button>
+      <br>
+      [[ message ]]
+      <br>
+      <input type="text" v-model="input"></input>
+      <input type="text" v-model="message"></input>
+      <ul class="list-group">
+         <li v-for="gl in groceryList" class="list-group-item list-group-item-action">
+          [[ gl.text ]]
+        </li>
+      </ul>
+      <table class="table table-striped table-hover table-bordered">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="table-info" v-for="gl in groceryList">
+            <td>[[ gl.id ]]</td>
+            <td>[[ gl.text ]]</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+{% endblock content %}
+
+{% block custom_javascript %}
+
+    <script>
+    var app = new Vue({
+      el: '#app',
+      delimiters: ["[[","]]"],
+      data: {
+        message: 'Hello Vue!',
+        input: 'A',
+        groceryList: [
+            { id: 0, text: 'Vegetables' },
+            { id: 1, text: 'Cheese' },
+            { id: 2, text: 'Whatever else humans are supposed to eat' }
+          ]
+      },
+      methods: {
+        changeValue: function(){
+          this.message += app.input;
+        },
+        resetValue: function(){
+          this.message = "Hello ";
+          this.groceryList = [
+              { id: 0, text: 'Vegetables' },
+              { id: 1, text: 'Cheese' },
+              { id: 2, text: 'Whatever else humans are supposed to eat' }
+            ];
+        },
+        addToList: function(){
+          this.groceryList.push({id:this.groceryList.length+1,text:this.input})
+        },
+        removeItem: function(){
+          this.groceryList.pop()
+        }
+
+      }
+    })
+    </script>
+ {% endblock custom_javascript %}
