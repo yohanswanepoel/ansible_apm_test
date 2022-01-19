@@ -13,7 +13,7 @@
       - ingress-dns
   tasks:
     - block:
-        - name: Start Minikube
+        - name: Start Kubernetes Test Environment
           command: "minikube start --profile={{ kube_profile }} --disk-size={{ kube_disk }} --cpus={{ kube_cpu }} --memory={{ kube_memory }} --container-runtime=cri-o"
         - name: Enable Addons
           command: "minikube --profile={{ kube_profile }} addons enable {{ item }}"
