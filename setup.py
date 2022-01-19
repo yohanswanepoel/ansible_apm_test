@@ -16,5 +16,5 @@ os.environ['OTEL_EXPORTER_OTLP_ENDPOINT'] = 'http://localhost:8200'
 os.environ['OTEL_SERVICE_NAME'] = 'Ansible Test Service'
 
 
-os.system("python smokle_test.py")
+os.system("python smoke_test.py")
 
