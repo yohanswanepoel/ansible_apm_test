@@ -19,6 +19,7 @@ This project:
 ```bash
 python setup.py
 python test-kube.py
+python test.py
 python tear-down.py
 ```
 
