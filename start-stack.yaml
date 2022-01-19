@@ -9,5 +9,5 @@
        shell: "kibana > kibana.log &"
 
      - name: Start APM
-       shell: "apm-server -e > apm.log 2>&1 &"
+       shell: "apm-server -e -E apm-server.host=0.0.0.0:8200 > apm.log 2>&1 &"
 
