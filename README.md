@@ -33,7 +33,7 @@ python python3 java_app/generate_traffic.py http://[cluster ip]:30001
 ```
 
 ## Elastic Config
-Apply this on your apm_transaction index and index template
+Apply this on your apm_transaction index and index template - **your indexes may have different name**
 ```json
 
 PUT apm-7.16.3-transaction-000001/_mapping
