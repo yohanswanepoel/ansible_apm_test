@@ -79,7 +79,7 @@ PUT _template/apm-7.16.3-transaction?include_type_name
 }
 ```
 
-## Import the dasboad
+## Import the dashboad
 dashboard.ndjson
 
 ## TODO
