@@ -8,6 +8,9 @@ Dependencies:
 ```bash
 python3 -m venv venv
 source venv/bin/active 
+
+pip install -r requirements.txt
+
 ```
 
 This project:
@@ -82,3 +85,4 @@ dashboard.ndjson
 ## TODO
 * capture metrics e.g. business unit - manual effort ect.
 * develop insightful dashbboards
+* kubernetes feature gates: --feature-gates=EphemeralContainers=true
