@@ -39,6 +39,7 @@
               type: Available
               status: True
               reason: MinimumReplicasAvailable
+            wait_timeout: 240
         - name: Create a Service
           k8s:
             state: present      # State=present when you need to create new object
