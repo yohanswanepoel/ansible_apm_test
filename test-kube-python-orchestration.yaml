@@ -19,10 +19,22 @@
           command: "minikube --profile={{ kube_profile }} addons enable {{ item }}"
           with_items:
             - "{{ kube_modules }}"
+        - name: Create build directory
+          file:
+            path: ./tmp_build
+            state: directory
+        - name: Clone the repository
+          ansible.builtin.git:
+            repo: https://github.com/yohanswanepoel/ansible_apm_test.git
+            dest: ./tmp_build
         - name: Build container
           args:
-            chdir: ./python_app/src
+            chdir: ./tmp_build/python_app/src
           command: minikube --profile apmtest image build -t skaffold-demo .
+          register: build_output
+        - name: Build output
+          debug:
+            var: build_output
         - name: Create a k8s namespace
           kubernetes.core.k8s:
             api_version: v1
@@ -33,7 +45,7 @@
           k8s:
             state: present      # State=present when you need to create new object
             namespace: development # defining the namespace
-            src: python_app/app-local/k8s-app.yaml
+            src: ./tmp_build/python_app/app-local/k8s-app.yaml
             wait: yes
             wait_condition:
               type: Available
@@ -44,7 +56,7 @@
           k8s:
             state: present      # State=present when you need to create new object
             namespace: development # defining the namespace
-            src: python_app/app-local/k8s-service.yaml 
+            src: ./tmp_build/python_app/app-local/k8s-service.yaml 
         - name: Set development namespace context
           command: kubectl config set-context --current --namespace=development
         - name: Get Nodeport IP Address
@@ -68,4 +80,9 @@
       #rescue:
       #  - name: delete Minikube
       #    command: "minikube delete --profile={{ kube_profile }}"
+      always:
+        - name: Delete content & directory
+          file:
+            state: absent
+            path: ./tmp_build/
       
