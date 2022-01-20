@@ -18,7 +18,7 @@ if len(sys.argv) == 2:
                 urllib.request.urlopen(url+"/oups")
         except urllib.error.HTTPError as exception:
             pass
-        time.sleep(1)
+        # time.sleep(1)
         print(x)
 else:
     print("You need to specify the service URL")

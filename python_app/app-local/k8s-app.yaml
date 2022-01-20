@@ -11,7 +11,9 @@ spec:
     metadata:
       labels:
         app: skaffold-demo
+        service: skaffold-demo
     spec:
+      dnsPolicy: ClusterFirstWithHostNet 
       restartPolicy: Always
       containers:
       - name: skaffold-demo
@@ -23,3 +25,9 @@ spec:
           limits:
             memory: "128Mi"
             cpu: "250m"
+        
+        env: 
+        - name: ELASTIC_APM_SERVER_URL 
+          value: "http://host.minikube.internal:8200" 
+        - name: ELASTIC_APM_SERVICE_NAME 
+          value: "Accounts Demo" 

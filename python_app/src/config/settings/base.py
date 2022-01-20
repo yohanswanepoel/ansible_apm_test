@@ -46,6 +46,7 @@ DJANGO_APPS = [
 
     # Admin
     'django.contrib.admin',
+    'elasticapm.contrib.django',
 ]
 THIRD_PARTY_APPS = [
     'crispy_forms',  # Form layouts

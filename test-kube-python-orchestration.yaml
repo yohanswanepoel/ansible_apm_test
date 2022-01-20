@@ -19,6 +19,10 @@
           command: "minikube --profile={{ kube_profile }} addons enable {{ item }}"
           with_items:
             - "{{ kube_modules }}"
+        - name: Build container
+          args:
+            chdir: ./python_app/src
+          command: minikube --profile apmtest image build -t skaffold-demo .
         - name: Create a k8s namespace
           kubernetes.core.k8s:
             api_version: v1
@@ -29,7 +33,7 @@
           k8s:
             state: present      # State=present when you need to create new object
             namespace: development # defining the namespace
-            src: java_app/petclinic_with_apm.yaml
+            src: python_app/app-local/k8s-app.yaml
             wait: yes
             wait_condition:
               type: Available
@@ -39,20 +43,20 @@
           k8s:
             state: present      # State=present when you need to create new object
             namespace: development # defining the namespace
-            src: java_app/petclinic_service.yaml 
+            src: python_app/app-local/k8s-service.yaml 
         - name: Set development namespace context
           command: kubectl config set-context --current --namespace=development
         - name: Get Nodeport IP Address
           command: minikube -p apmtest ip
           register: test_ip
         - name: Get test url
-          command: "kubectl get svc petclinic -n development -o go-template='http://{{ test_ip.stdout }}:{{ '{{' }}range.spec.ports{{ '}}' }}{{ '{{' }}if .nodePort{{ '}}' }}{{ '{{' }}.nodePort{{ '}}' }}{{ '{{' }}end{{ '}}' }}{{ '{{' }}end{{ '}}' }}'"
+          command: "kubectl get svc skaffold-demo -n development -o go-template='http://{{ test_ip.stdout }}:{{ '{{' }}range.spec.ports{{ '}}' }}{{ '{{' }}if .nodePort{{ '}}' }}{{ '{{' }}.nodePort{{ '}}' }}{{ '{{' }}end{{ '}}' }}{{ '{{' }}end{{ '}}' }}'"
           register: test_url
-        - name: Service URL for the petclinic
+        - name: Service URL for the Django App
           debug:
             var: test_url.stdout
-        - name: Run tests to generate APM traffice
-          shell: python java_app/generate_traffic.py {{ test_url.stdout }}
+        #- name: Run tests to generate APM traffice
+        #  shell: python java_app/generate_traffic.py {{ test_url.stdout }}
         #- name: Get petclinic url
         #  command: "minikube --profile=apmtest service petclinic -n development"
         #  register: petclinic_url
