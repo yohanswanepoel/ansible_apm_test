@@ -68,8 +68,8 @@
         - name: Service URL for the Django App
           debug:
             var: test_url.stdout
-        #- name: Run tests to generate APM traffice
-        #  shell: python java_app/generate_traffic.py {{ test_url.stdout }}
+        - name: Run tests to generate APM traffic
+          shell: python python_app/generate_traffic.py {{ test_url.stdout }}
         #- name: Get petclinic url
         #  command: "minikube --profile=apmtest service petclinic -n development"
         #  register: petclinic_url
