@@ -18,22 +18,20 @@ class TestClass:
 
     def test_error_url(self):
         try:
-            urllib.request.urlopen(url+"/error).getcode()
+            urllib.request.urlopen(url+"/error").getcode()
         except urllib.error.HTTPError as exception:
             assert 404 == exception.code
     
     def load_test(self):
-
         for x in range(1000):
-        #contents = urllib.request.urlopen("http://example.com/foo/bar").read()
-        urllib.request.urlopen(url)
-        if x // random.randrange(3,7) == 0:
-            urllib.request.urlopen(url+"/about/")
-            urllib.request.urlopen(url+"/accounts/signup/")
-        try:
-            if x // random.randrange(5,10) == 0:
-                urllib.request.urlopen(url+"/error")
-        except urllib.error.HTTPError as exception:
-            pass
-        # time.sleep(1)
+            urllib.request.urlopen(url)
+            if x // random.randrange(3,7) == 0:
+                urllib.request.urlopen(url+"/about/")
+                urllib.request.urlopen(url+"/accounts/signup/")
+            try:
+                if x // random.randrange(5,10) == 0:
+                    urllib.request.urlopen(url+"/error")
+            except urllib.error.HTTPError as exception:
+                pass
+            # time.sleep(1)
         assert True
