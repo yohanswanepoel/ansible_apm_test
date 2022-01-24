@@ -22,7 +22,7 @@ class TestClass:
         except urllib.error.HTTPError as exception:
             assert 500 == exception.code
     
-    def load_test(self):
+    def test_load_test(self):
         base_urls = 0
         secondary_urls = 0
         error_urls = 0

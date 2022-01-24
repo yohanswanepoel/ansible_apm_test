@@ -22,7 +22,7 @@ class TestClass:
         except urllib.error.HTTPError as exception:
             assert 404 == exception.code
     
-    def load_test(self):
+    def test_load_test(self):
         for x in range(1000):
             urllib.request.urlopen(url)
             if x // random.randrange(3,7) == 0:
