@@ -19,6 +19,14 @@
           command: "minikube --profile={{ kube_profile }} addons enable {{ item }}"
           with_items:
             - "{{ kube_modules }}"
+        - name: Create build directory
+          file:
+            path: ./tmp_build_java
+            state: directory
+        - name: Clone the repository
+          ansible.builtin.git:
+            repo: https://github.com/yohanswanepoel/ansible_apm_test.git
+            dest: ./tmp_build_java
         - name: Create a k8s namespace
           kubernetes.core.k8s:
             api_version: v1
@@ -29,7 +37,7 @@
           k8s:
             state: present      # State=present when you need to create new object
             namespace: development # defining the namespace
-            src: java_app/petclinic_with_apm.yaml
+            src: ./tmp_build_java/java_app/petclinic_with_apm.yaml
             wait: yes
             wait_condition:
               type: Available
@@ -39,7 +47,7 @@
           k8s:
             state: present      # State=present when you need to create new object
             namespace: development # defining the namespace
-            src: java_app/petclinic_service.yaml 
+            src: ./tmp_build_java/java_app/petclinic_service.yaml 
         - name: Set development namespace context
           command: kubectl config set-context --current --namespace=development
         - name: Get Nodeport IP Address
@@ -52,7 +60,7 @@
           debug:
             var: test_url.stdout
         - name: Run tests to generate APM traffic
-          shell: python java_app/generate_traffic.py {{ test_url.stdout }}
+          shell: python ./tmp_build_java/java_app/generate_traffic.py {{ test_url.stdout }}
         #- name: Get petclinic url
         #  command: "minikube --profile=apmtest service petclinic -n development"
         #  register: petclinic_url
@@ -63,4 +71,8 @@
       #rescue:
       #  - name: delete Minikube
       #    command: "minikube delete --profile={{ kube_profile }}"
-      
+      always:
+        - name: Delete content & directory
+          file:
+            state: absent
+            path: ./tmp_build_java/
