@@ -2,6 +2,7 @@ import sys
 import urllib.request
 import time
 import os
+import random
 
 
 url = os.getenv('TEST_URL','http://192.168.64.31:30002')
