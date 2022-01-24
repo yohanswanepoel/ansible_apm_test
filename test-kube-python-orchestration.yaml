@@ -69,7 +69,7 @@
           debug:
             var: test_url.stdout
         - name: Run tests to generate APM traffic
-          shell: python python_app/generate_traffic.py {{ test_url.stdout }}
+          shell: export TEST_URL={{ test_url.stdout }}; pytest --otel-service-name='{{ lookup('env', 'OTEL_SERVICE_NAME') | default('Account Test Environment', True) }}' --otel-session-name='Account Service Test Cases' ./tmp_build/python_app/test_traffic.py 
         #- name: Get petclinic url
         #  command: "minikube --profile=apmtest service petclinic -n development"
         #  register: petclinic_url
