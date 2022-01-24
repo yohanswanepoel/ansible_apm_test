@@ -40,6 +40,7 @@ class TestClass:
                 error_urls = error_urls + 1
             # time.sleep(1)
             base_urls = base_urls + 1
-        assert (base_urls + secondary_urls + error_urls) == 1300
+        print(base_urls + secondary_urls + error_urls)
+        assert (base_urls + secondary_urls + error_urls) == 1015
 
 
