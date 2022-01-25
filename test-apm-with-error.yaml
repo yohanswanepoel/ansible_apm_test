@@ -8,16 +8,14 @@
         - name: List invalid path
           find:
             path: "/tmp/invalid-path"
-        - name: Failing intentionally
-          command: "ls -l /tmp/does-not-exist"
+        - name: Invalid URL on purpose
+          uri:
+            url: "http://url.does.not.exist"
+            method: "GET"
       rescue:
         - name: Rescue block (perform recovery)
           debug:
             msg: "Something went wrong, cleaning up.."
-        - name: Report error
-          uri:
-            url: "http://url.does.not.exist"
-            method: "GET"
       always:
         - name: This will execute always
           debug:
