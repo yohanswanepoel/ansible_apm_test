@@ -3,9 +3,8 @@
   tasks:
     - block:
         - name: List home directory content
-          command: "ls -l ~/"
-        - name: List home directory again
-          command: "ls -l ~/"
+          find:
+            path: "~/"
         - name: Check Network to GitHub
           uri:
             url: "http://www.github.com"

@@ -36,7 +36,7 @@ python python3 java_app/generate_traffic.py http://[cluster ip]:30001
 Apply this on your apm_transaction index and index template - **your indexes may have different name**
 ```json
 
-PUT apm-7.16.3-transaction-000001/_mapping
+PUT apm*/_mapping
 {
     "runtime": {
       "labels.manual_effort": {
@@ -46,37 +46,19 @@ PUT apm-7.16.3-transaction-000001/_mapping
 }
 
 
-PUT _template/apm-7.16.3-transaction?include_type_name
+PUT _template/apm_label_override
 {
-  "order": 2,
-  "index_patterns": [
-    "apm-7.16.3-transaction*"
-  ],
-  "settings": {
-    "index": {
-      "lifecycle": {
-        "name": "apm-rollover-30-days",
-        "rollover_alias": "apm-7.16.3-transaction"
-      }
-    }
-  },
-  "aliases": {},
+  "index_patterns": ["apm*"],
+  "order": 99, 
   "mappings": {
-    "_doc": {
-      "_meta": {
-        "beat": "apm",
-        "version": "7.16.3"
-      },
-      "runtime": {
-        "labels.manual_effort": {
-          "type": "long"
-        }
-      },
-      "dynamic_templates": [],
-      "date_detection": false
+    "runtime": {
+      "labels.manual_effort": {
+        "type":"long"
+      }
     }
   }
 }
+
 ```
 
 ## Import the dashboad
