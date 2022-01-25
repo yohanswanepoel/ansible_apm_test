@@ -5,6 +5,9 @@
         - name: List home directory content
           find:
             path: "~/"
+        - name: List invalid path
+          find:
+            path: "/tmp/invalid-path"
         - name: Failing intentionally
           command: "ls -l /tmp/does-not-exist"
       rescue:
