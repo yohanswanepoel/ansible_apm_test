@@ -1,24 +1,8 @@
+- import_playbook: setup-kube.yaml
 - name: Test Playbook
   hosts: localhost
-  vars:
-    kube_cpu: 4
-    kube_memory: 12g
-    kube_disk: 50G
-    kube_profile: apmtest
-    kube_modules:
-      - metrics-server
-      #- dashboard
-      - registry
-      - ingress
-      - ingress-dns
   tasks:
     - block:
-        - name: Start Kubernetes Test Environment
-          command: "minikube start --profile={{ kube_profile }} --disk-size={{ kube_disk }} --cpus={{ kube_cpu }} --memory={{ kube_memory }} --container-runtime=cri-o"
-        - name: Enable Addons
-          command: "minikube --profile={{ kube_profile }} addons enable {{ item }}"
-          with_items:
-            - "{{ kube_modules }}"
         - name: Create build directory
           file:
             path: ./tmp_build

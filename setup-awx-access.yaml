@@ -1,0 +1,21 @@
+- name: Setup AWX
+  hosts: localhost
+  vars:
+    awx_namespace: awx
+  tasks:
+    - block:
+        - name: Admin password
+          shell: kubectl get secret awx-demo-admin-password -o jsonpath="{.data.password}" -n awx | base64 --decode
+          register: admin_pw
+        - name: Admin password print
+          debug: "Admin password: {{ admin_pw }}"
+        - name: Get Nodeport IP Address
+          command: minikube -p apmtest ip
+          register: test_ip
+        - name: Get test url
+          command: "kubectl get svc awx-demo-service -n {{ awx_namespace }} -o go-template='http://{{ test_ip.stdout }}:{{ '{{' }}range.spec.ports{{ '}}' }}{{ '{{' }}if .nodePort{{ '}}' }}{{ '{{' }}.nodePort{{ '}}' }}{{ '{{' }}end{{ '}}' }}{{ '{{' }}end{{ '}}' }}'"
+          register: test_url
+        - name: Service URL for the AWX App
+          debug:
+            var: test_url.stdout
+                

@@ -1,0 +1,43 @@
+- import_playbook: setup-kube.yaml
+- name: Setup AWX
+  hosts: localhost
+  vars:
+    awx_namespace: awx
+  tasks:
+    - block:
+        - name: Create AWX build directory
+          file:
+            path: ./tmp_awx
+            state: directory
+        - name: Clone the AWX repository
+          ansible.builtin.git:
+            repo: https://github.com/ansible/awx-operator.git
+            dest: ./tmp_awx
+            version: "0.16.0"
+        - name: Create a AWX k8s namespace
+          kubernetes.core.k8s:
+            api_version: v1
+            kind: namespace
+            name: "{{ awx_namespace }}"
+            state: present
+        - name: Deploy the operator
+          make:
+            chdir: ./tmp_awx
+            target: deploy 
+          environment:
+            NAMESPACE: "{{ awx_namespace }}"
+        - name: Wait for AWX Operator to be ready
+          command: "kubectl rollout status deployment awx-operator-controller-manager -n {{ awx_namespace }}"
+        - name: Install AWX
+          k8s:
+            state: present      # State=present when you need to create new object
+            namespace: default # defining the namespace
+            src: ./awx/awx.yaml
+        - name: Wait for AWX to be ready
+          command: "kubectl rollout status deployment awx-demo -n {{ awx_namespace }}"
+      always:
+        - name: Delete content & directory
+          file:
+            state: absent
+            path: ./tmp_awx/
+                
