@@ -24,7 +24,12 @@ podman push $(minikube -p apmtest ip):5000/ansible-execution-env:latest --tls-ve
 podman image list $(minikube -p apmtest ip):5000
 ```
 
+Altarnatively - use the minikube build command
+```bash
+minikube -p apmtest image build -t ansible-execution-env:latest . 
+```
+
 ## Add image in AWX UI and test
 * administration/execution environments
-* add the result of echo $(minikube -p apmtest ip):5000/ansible-execution-env
+* add the result of echo $(minikube -p apmtest ip):5000/ansible-execution-env or localhost/ansible-execution-env:latest (if used minikube build)
 * Launch job template with the new custom execution environment
