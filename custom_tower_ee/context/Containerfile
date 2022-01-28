@@ -18,11 +18,14 @@ FROM $EE_BUILDER_IMAGE as builder
 COPY --from=galaxy /usr/share/ansible /usr/share/ansible
 
 ADD _build/requirements.txt requirements.txt
+ADD _build/test.yml test.yml
 RUN ansible-builder introspect --sanitize --user-pip=requirements.txt --write-bindep=/tmp/src/bindep.txt --write-pip=/tmp/src/requirements.txt
 RUN assemble
 
 FROM $EE_BASE_IMAGE
 USER root
+
+ENV ELASTIC_APM_SERVER_URL=http://host.minikube.internal:8200
 
 COPY --from=galaxy /usr/share/ansible /usr/share/ansible
 

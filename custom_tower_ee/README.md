@@ -33,3 +33,8 @@ minikube -p apmtest image build -t ansible-execution-env:latest .
 * administration/execution environments
 * add the result of echo $(minikube -p apmtest ip):5000/ansible-execution-env or localhost/ansible-execution-env:latest (if used minikube build)
 * Launch job template with the new custom execution environment
+* Add a project with ansible.cfg
+* Add credentials for environment variables
+* Custom credential
+* Add credential to Job Template or use custom control environment
+* https://github.com/yohanswanepoel/simple_ansible_test
