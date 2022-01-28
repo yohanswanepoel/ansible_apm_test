@@ -4,7 +4,7 @@ import platform
 
 os.system("rm ansible.cfg")
 
-os.system("ansible-playbook stop-stack.yaml")
+os.system("ansible-playbook elastic_stack/stop-stack.yaml")
 
 os.system("minikube delete --profile=apmtest")
 
