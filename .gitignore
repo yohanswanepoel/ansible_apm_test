@@ -1,5 +1,5 @@
 *.log
-*.cfg
+./ansible.cfg
 
 __pycache__/
 .pytest_cache/
