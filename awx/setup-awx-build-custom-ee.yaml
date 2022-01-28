@@ -4,7 +4,7 @@
     - block:
         - name: Build container
           args:
-            chdir: ./custom_tower_ee/context
+            chdir: ../custom_tower_ee/context
           command: minikube -p apmtest image build -t ansible-execution-env:latest .
           register: build_output
         - name: Build output

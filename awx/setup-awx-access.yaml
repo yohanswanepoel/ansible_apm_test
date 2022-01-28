@@ -8,7 +8,8 @@
           shell: kubectl get secret awx-demo-admin-password -o jsonpath="{.data.password}" -n awx | base64 --decode
           register: admin_pw
         - name: Admin password print
-          debug: "Admin password: {{ admin_pw }}"
+          debug: 
+            var: admin_pw.stdout
         - name: Get Nodeport IP Address
           command: minikube -p apmtest ip
           register: test_ip

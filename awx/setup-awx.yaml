@@ -1,4 +1,4 @@
-- import_playbook: setup-kube.yaml
+- import_playbook: ../kube/setup-kube.yaml
 - name: Setup AWX
   hosts: localhost
   vars:
@@ -31,8 +31,8 @@
         - name: Install AWX
           k8s:
             state: present      # State=present when you need to create new object
-            namespace: default # defining the namespace
-            src: ./awx/awx.yaml
+            namespace: awx # defining the namespace
+            src: awx.yaml
         - name: Wait for AWX to be ready
           command: "kubectl rollout status deployment awx-demo -n {{ awx_namespace }}"
       always:
