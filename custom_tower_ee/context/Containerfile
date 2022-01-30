@@ -25,8 +25,6 @@ RUN assemble
 FROM $EE_BASE_IMAGE
 USER root
 
-ENV ELASTIC_APM_SERVER_URL=http://host.minikube.internal:8200
-
 COPY --from=galaxy /usr/share/ansible /usr/share/ansible
 
 COPY --from=builder /output/ /output/
