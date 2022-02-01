@@ -2,6 +2,8 @@ import os
 import sys
 import platform
 
+os.environ['OTEL_EXPORTER_OTLP_ENDPOINT'] = ''
+
 os.system("ansible-playbook elastic_stack/stop-stack.yaml")
 
 print("Stopping Kubernetes and Removing Profile")
