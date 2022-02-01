@@ -2,12 +2,15 @@
 - name: Start Elastic
   hosts: localhost
   tasks:
-     - name: Start Elastic Search
-       shell: "elasticsearch > elastic.log &"
+    - name: remove logs
+      shell: "rm apm.log elastic.log kibana.log"
 
-     - name: Start Kibana
-       shell: "kibana > kibana.log &"
+    - name: Start Elastic Search
+      shell: "elasticsearch -E network.host=0.0.0.0 -E http.host=0.0.0.0 -E discovery.type=single-node > elastic.log &"
 
-     - name: Start APM
-       shell: "apm-server -e -E apm-server.host=0.0.0.0:8200 > apm.log 2>&1 &"
+    - name: Start Kibana
+      shell: "kibana -H 0.0.0.0 -Q > kibana.log &"
+
+    - name: Start APM
+      shell: "apm-server -e -E apm-server.host=0.0.0.0:8200 > apm.log 2>&1 &"
 
