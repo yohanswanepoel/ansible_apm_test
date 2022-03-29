@@ -14,7 +14,7 @@
         - name: Build container
           args:
             chdir: ./tmp_build/python_app/src
-          command: minikube --profile apmtest image build -t skaffold-demo .
+          command: minikube --profile minikube image build -t skaffold-demo .
           register: build_output
         - name: Build output
           debug:
@@ -44,7 +44,7 @@
         - name: Set development namespace context
           command: kubectl config set-context --current --namespace=development
         - name: Get Nodeport IP Address
-          command: minikube -p apmtest ip
+          command: minikube -p minikube ip
           register: test_ip
         - name: Get test url
           command: "kubectl get svc skaffold-demo -n development -o go-template='http://{{ test_ip.stdout }}:{{ '{{' }}range.spec.ports{{ '}}' }}{{ '{{' }}if .nodePort{{ '}}' }}{{ '{{' }}.nodePort{{ '}}' }}{{ '{{' }}end{{ '}}' }}{{ '{{' }}end{{ '}}' }}'"

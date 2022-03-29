@@ -2,9 +2,9 @@
   hosts: localhost
   vars:
     kube_cpu: 4
-    kube_memory: 12g
+    kube_memory: 24g
     kube_disk: 50G
-    kube_profile: apmtest
+    kube_profile: minikube
     kube_modules:
       - metrics-server
       #- dashboard

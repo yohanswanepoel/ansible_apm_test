@@ -35,7 +35,7 @@
         - name: Set development namespace context
           command: kubectl config set-context --current --namespace=development
         - name: Get Nodeport IP Address
-          command: minikube -p apmtest ip
+          command: minikube -p minikube ip
           register: test_ip
         - name: Get test url
           command: "kubectl get svc petclinic -n development -o go-template='http://{{ test_ip.stdout }}:{{ '{{' }}range.spec.ports{{ '}}' }}{{ '{{' }}if .nodePort{{ '}}' }}{{ '{{' }}.nodePort{{ '}}' }}{{ '{{' }}end{{ '}}' }}{{ '{{' }}end{{ '}}' }}'"

@@ -2,7 +2,9 @@ import os
 import sys
 import platform
 
-os.environ['OTEL_EXPORTER_OTLP_ENDPOINT'] = 'http://localhost:8200'
+from config import OTEL_EXPORTER_OTLP_ENDPOINT
+
+os.environ['OTEL_EXPORTER_OTLP_ENDPOINT'] = OTEL_EXPORTER_OTLP_ENDPOINT
 
 os.system("export OTEL_RESOURCE_ATTRIBUTES=\"team='Automation Team',manual_effort=120\"; export OTEL_SERVICE_NAME='Automation Service'; ansible-playbook awx/setup-awx.yaml ; unset OTEL_SERVICE_NAME")
 

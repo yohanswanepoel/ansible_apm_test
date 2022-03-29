@@ -28,6 +28,7 @@ spec:
         
         env: 
         - name: ELASTIC_APM_SERVER_URL 
-          value: "http://host.minikube.internal:8200" 
+          #value: "http://host.minikube.internal:8200" 
+          value: "http://apm.elk.svc:8200"
         - name: ELASTIC_APM_SERVICE_NAME 
           value: "Accounts Demo" 
